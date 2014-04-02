@@ -14,7 +14,7 @@ class StatusRequestTest extends TestCase
     {
         $client = $this->getHttpClient();
         $request = $this->getHttpRequest();
-        
+
         $this->request = new StatusRequest($client, $request);
 
         $this->options = array(

@@ -25,7 +25,7 @@ class PurchaseResponseTest extends TestCase
         $this->assertSame('wuyluuriqeqy20205', $response->getTransactionReference());
         $this->assertNull($response->getTransactionId());
         $this->assertNull($response->getTransactionStatus());
-        
+
         /* Check the additional data */
         $this->assertNotNull($response->getData());
         $this->assertSame('https://api-dist.secupay-ag.de/payment/wuyluuriqeqy20205', $response->getIframeUrl());

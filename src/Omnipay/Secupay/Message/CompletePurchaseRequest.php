@@ -11,7 +11,7 @@ class CompletePurchaseRequest extends AbstractRequest
 
     public function getData()
     {
-    	$this->validate('apiKey', 'iframeUrl');
+        $this->validate('apiKey', 'iframeUrl');
 
         return $this->getBaseData();
     }

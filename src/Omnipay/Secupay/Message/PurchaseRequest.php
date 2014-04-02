@@ -15,7 +15,7 @@ class PurchaseRequest extends AbstractRequest
         $this->validate('apiKey', 'paymentType', 'urlSuccess', 'urlFailure', 'paymentData');
 
         $data = parent::getBaseData();
-        
+
         $data['data']['payment_type'] = $this->getPaymentType();
         $data['data']['demo'] = parent::getDemoValue();
         $data['data']['amount'] = $this->getAmount();

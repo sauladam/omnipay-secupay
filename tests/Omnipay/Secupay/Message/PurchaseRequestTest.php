@@ -14,13 +14,13 @@ class PurchaseRequestTest extends TestCase
     {
         $client = $this->getHttpClient();
         $request = $this->getHttpRequest();
-        
+
         $this->request = new PurchaseRequest($client, $request);
 
         $this->options = array(
             'apiKey' => 'someApiKey',
             'paymentType' => 'debit',
-            'amount' => (float)100,
+            'amount' => (float) 100,
             'currency' => 'EUR',
             'urlSuccess' => 'http://www.test.com/success',
             'urlFailure' => 'http://www.test.com/failure',
@@ -41,7 +41,7 @@ class PurchaseRequestTest extends TestCase
 
         $this->assertSame($this->options['apiKey'], $data['data']['apikey']);
         $this->assertSame($this->options['paymentType'], $data['data']['payment_type']);
-        $this->assertSame($this->options['amount'], (float)$data['data']['amount']);
+        $this->assertSame($this->options['amount'], (float) $data['data']['amount']);
         $this->assertSame($this->options['currency'], $data['data']['currency']);
         $this->assertSame($this->options['urlSuccess'], $data['data']['url_success']);
         $this->assertSame($this->options['urlFailure'], $data['data']['url_failure']);

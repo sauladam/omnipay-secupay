@@ -7,7 +7,7 @@ use Omnipay\Common\AbstractGateway;
 
 abstract class AbstractSecupayGateway extends AbstractGateway
 {
-	public function __construct()
+    public function __construct()
     {
         /**
          * We need a custom client because we have to specify
@@ -17,7 +17,7 @@ abstract class AbstractSecupayGateway extends AbstractGateway
             '',
             array(
                 'curl.options' => array(
-                    CURLOPT_CONNECTTIMEOUT => 60, 
+                    CURLOPT_CONNECTTIMEOUT => 60,
                     CURLOPT_HTTPHEADER => array(
                         'User-Agent: XTC-client 1.0.0',
                         'Accept-Language: de_DE',
@@ -29,7 +29,7 @@ abstract class AbstractSecupayGateway extends AbstractGateway
         parent::__construct($client, null);
     }
 
-	public function getDefaultParameters()
+    public function getDefaultParameters()
     {
         return array(
             'apiKey' => '',
@@ -56,6 +56,7 @@ abstract class AbstractSecupayGateway extends AbstractGateway
         /**
          * The payment type should be immutable / read only.
          */
+
         return $this->setParameter('paymentType', $value);
     }
 
@@ -92,5 +93,5 @@ abstract class AbstractSecupayGateway extends AbstractGateway
     public function completePurchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Secupay\Message\CompletePurchaseRequest', $parameters);
-    }    
+    }
 }

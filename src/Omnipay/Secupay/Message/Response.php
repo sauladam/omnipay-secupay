@@ -43,8 +43,7 @@ class Response extends AbstractResponse
 
     public function getTransactionReference()
     {
-        if (isset($this->data['data']['hash'])) 
-        {
+        if (isset($this->data['data']['hash'])) {
             return $this->data['data']['hash'];
         }
 
@@ -54,11 +53,10 @@ class Response extends AbstractResponse
     public function getTransactionId()
     {
         /**
-         * This is an internal transaction reference and not 
+         * This is an internal transaction reference and not
          * a reference for the API-communication
          */
-        if (isset($this->data['data']['trans_id']))
-        {
+        if (isset($this->data['data']['trans_id'])) {
             return $this->data['data']['trans_id'];
         }
 
@@ -67,8 +65,7 @@ class Response extends AbstractResponse
 
     public function getTransactionStatus()
     {
-        if (isset($this->data['data']['status']))
-        {
+        if (isset($this->data['data']['status'])) {
             return $this->data['data']['status'];
         }
 
@@ -77,18 +74,16 @@ class Response extends AbstractResponse
 
     public function getIframeUrl()
     {
-        if (isset($this->data['data']['iframe_url']))
-        {
+        if (isset($this->data['data']['iframe_url'])) {
             return $this->data['data']['iframe_url'];
         }
 
-        return null;        
+        return null;
     }
 
     public function getMessage()
     {
-        if ( null !== $this->data['errors'] )
-        {
+        if (null !== $this->data['errors']) {
             return $this->data['errors'][0]['message'];
         }
 
@@ -97,8 +92,7 @@ class Response extends AbstractResponse
 
     public function getErrorCode()
     {
-        if ( null !== $this->data['errors'] )
-        {
+        if (null !== $this->data['errors']) {
             return $this->data['errors'][0]['code'];
         }
 

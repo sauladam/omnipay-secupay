@@ -14,7 +14,7 @@ class CaptureRequestTest extends TestCase
     {
         $client = $this->getHttpClient();
         $request = $this->getHttpRequest();
-        
+
         $this->request = new CaptureRequest($client, $request);
 
         $this->options = array(

@@ -3,8 +3,6 @@
 namespace Omnipay\Secupay;
 
 use Omnipay\Tests\GatewayTestCase;
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Client as HttpClient;
 
 class LSGatewayTest extends GatewayTestCase
 {
@@ -21,13 +19,13 @@ class LSGatewayTest extends GatewayTestCase
      */
     public function testThrowsExceptionOnInvalidAmount()
     {
-    	$request = $this->gateway->authorize();
-    	$request->setAmount(12.3);
+        $request = $this->gateway->authorize();
+        $request->setAmount(12.3);
     }
 
     public function testAuthorize()
     {
-    	$options = array(
+        $options = array(
             'apiKey' => 'someApiKey',
             'amount' => 100,
             'currency' => 'EUR',
@@ -51,7 +49,7 @@ class LSGatewayTest extends GatewayTestCase
 
     public function testCapture()
     {
-    	$options = array(
+        $options = array(
             'apiKey' => 'someApiKey',
             'hash' => 'someHash',
         );
@@ -67,7 +65,7 @@ class LSGatewayTest extends GatewayTestCase
 
     public function testCompletePurchase()
     {
-    	$options = array(
+        $options = array(
             'apiKey' => 'someApiKey',
             'iframeUrl' => 'https://api-dist.secupay-ag.de/payment/ejwyhqidngzu20208',
         );
@@ -114,7 +112,7 @@ class LSGatewayTest extends GatewayTestCase
 
     public function testStatus()
     {
-    	$options = array(
+        $options = array(
             'apiKey' => 'someApiKey',
             'hash' => 'someHash',
         );
@@ -130,7 +128,7 @@ class LSGatewayTest extends GatewayTestCase
 
     public function testTypes()
     {
-    	$options = array(
+        $options = array(
             'apiKey' => 'someApiKey',
         );
 
@@ -144,7 +142,7 @@ class LSGatewayTest extends GatewayTestCase
 
     public function testVoid()
     {
-    	$options = array(
+        $options = array(
             'apiKey' => 'someApiKey',
             'hash' => 'someHash',
         );
@@ -157,5 +155,5 @@ class LSGatewayTest extends GatewayTestCase
         $this->assertSame($options['hash'], $request->getHash());
         $this->assertTrue($request->getTestMode());
     }
-    
+
 }

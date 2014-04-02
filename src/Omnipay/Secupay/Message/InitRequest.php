@@ -15,7 +15,7 @@ class InitRequest extends AbstractRequest
         $this->validate('apiKey', 'paymentType', 'urlSuccess', 'urlFailure');
 
         $data = parent::getBaseData();
-        
+
         $data['data']['payment_type'] = $this->getPaymentType();
         $data['data']['demo'] = parent::getDemoValue();
         $data['data']['amount'] = $this->getAmount();

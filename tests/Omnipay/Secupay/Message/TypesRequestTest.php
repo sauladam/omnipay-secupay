@@ -14,7 +14,7 @@ class TypesRequestTest extends TestCase
     {
         $client = $this->getHttpClient();
         $request = $this->getHttpRequest();
-        
+
         $this->request = new TypesRequest($client, $request);
 
         $this->options = array(

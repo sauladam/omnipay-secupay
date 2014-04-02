@@ -25,7 +25,7 @@ class CaptureResponseTest extends TestCase
         $this->assertSame('vcikqjglpdti20245', $response->getTransactionReference());
         $this->assertSame('2449731', $response->getTransactionId());
         $this->assertSame('ok', $response->getTransactionStatus());
-        
+
         /* Check the additional data */
         $this->assertNotNull($response->getData());
         $this->assertNull($response->getIframeUrl());

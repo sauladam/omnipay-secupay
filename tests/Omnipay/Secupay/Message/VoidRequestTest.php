@@ -14,7 +14,7 @@ class VoidRequestTest extends TestCase
     {
         $client = $this->getHttpClient();
         $request = $this->getHttpRequest();
-        
+
         $this->request = new VoidRequest($client, $request);
 
         $this->options = array(

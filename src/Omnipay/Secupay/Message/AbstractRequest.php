@@ -7,7 +7,7 @@ namespace Omnipay\Secupay\Message;
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
-	const API_VERSION = '2.3.9';
+    const API_VERSION = '2.3.9';
 
     protected $liveEndpoint = 'https://api.secupay.ag';
     protected $testEndpoint = 'https://api-dist.secupay-ag.de';
@@ -30,7 +30,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function setPaymentType($value)
     {
         return $this->setParameter('paymentType', $value);
-    }    
+    }
 
     public function getHash()
     {
@@ -113,10 +113,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     public function setAmount($value)
     {
-        $biassed = $value != (int)$value;
+        $biassed = $value != (int) $value;
 
-        if($biassed)
-        {
+        if ($biassed) {
             throw new \Omnipay\Common\Exception\InvalidRequestException('The amount must be give in the smallest currency-unit!');
         }
 
@@ -124,7 +123,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     public function getAmount()
-    {   
+    {
         return $this->getParameter('amount');
     }
 

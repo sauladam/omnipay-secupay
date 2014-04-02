@@ -3,8 +3,6 @@
 namespace Omnipay\Secupay;
 
 use Omnipay\Tests\GatewayTestCase;
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Client as HttpClient;
 
 class KKGatewayTest extends GatewayTestCase
 {
@@ -157,5 +155,5 @@ class KKGatewayTest extends GatewayTestCase
         $this->assertSame($options['hash'], $request->getHash());
         $this->assertTrue($request->getTestMode());
     }
-    
+
 }

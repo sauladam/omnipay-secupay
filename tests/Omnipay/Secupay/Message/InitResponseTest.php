@@ -25,7 +25,7 @@ class InitResponseTest extends TestCase
         $this->assertSame('spnzpmtwoeby20160', $response->getTransactionReference());
         $this->assertNull($response->getTransactionId());
         $this->assertNull($response->getTransactionStatus());
-        
+
         /* Check the additional data */
         $this->assertNotNull($response->getData());
         $this->assertSame('https://api-dist.secupay-ag.de/payment/spnzpmtwoeby20160', $response->getIframeUrl());
@@ -51,7 +51,7 @@ class InitResponseTest extends TestCase
         $this->assertNull($response->getTransactionReference());
         $this->assertNull($response->getTransactionId());
         $this->assertNull($response->getTransactionStatus());
-        
+
         /* Check the additional data */
         $this->assertNull($response->getData());
         $this->assertNull($response->getIframeUrl());
