@@ -116,7 +116,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $biassed = $value != (int) $value;
 
         if ($biassed) {
-            throw new \Omnipay\Common\Exception\InvalidRequestException('The amount must be give in the smallest currency-unit!');
+            $message = 'The amount must be give in the smallest currency-unit!';
+            throw new \Omnipay\Common\Exception\InvalidRequestException($message);
         }
 
         return $this->setParameter('amount', (int) $value);
