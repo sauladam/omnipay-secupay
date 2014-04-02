@@ -3,6 +3,7 @@
 **Secupay driver for the Omnipay PHP payment processing library**
 
 [![Build Status](https://travis-ci.org/sauladam/omnipay-secupay.svg?branch=master)](https://travis-ci.org/sauladam/omnipay-secupay)
+[![Total Downloads](https://poser.pugx.org/sauladam/omnipay-secupay/downloads.png)](https://packagist.org/packages/sauladam/omnipay-secupay)
 
 This is non-official Omnipay-driver for the German payment gateway provider [Secupay](https://www.secupay.ag/).
 In order to use it the Omnipay-Framework is required.
