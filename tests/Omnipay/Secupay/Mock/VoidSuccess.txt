@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Date: Tue, 01 Apr 2014 13:05:06 GMT
+Server: Apache/2.2.16 (Debian)
+X-Powered-By: PHP/5.4.19
+Set-Cookie: WBS=yCP9QQ2LnDvHpngEkYYazt3LeiONDkNu; path=/; HttpOnly
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: must-revalidate
+Pragma: no-cache
+Content-MD5: faba3d9252d55a648ca518a12059f73e
+Content-Length: 59
+Content-Type: application/json; charset=utf-8;
+
+{"status":"ok","data":{"trans_id":"2449737"},"errors":null}

@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Date: Mon, 31 Mar 2014 20:23:45 GMT
+Server: Apache/2.2.16 (Debian)
+X-Powered-By: PHP/5.4.19
+Set-Cookie: WBS=PuM20kn3xKfMCbgYmXUbTCQ98aAfL4oY; path=/; HttpOnly
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: must-revalidate
+Pragma: no-cache
+Content-MD5: 23f78fdaaf0afe1b7d8050f7f78d9ef2
+Content-Length: 103
+Content-Type: application/json; charset=utf-8;
+
+{"status":"failed","data":{"hash":"stuff"},"errors":[{"code":"0002","message":"Ung\u00fcltiger hash"}]}

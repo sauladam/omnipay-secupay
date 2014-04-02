@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Date: Sun, 30 Mar 2014 16:18:11 GMT
+Server: Apache/2.2.16 (Debian)
+X-Powered-By: PHP/5.4.19
+Set-Cookie: WBS=x6BTEDj8JhTcn81QQOPMlTuQn74bSADB; path=/; HttpOnly
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: must-revalidate
+Pragma: no-cache
+Content-MD5: 75b035f9f20f4fe40fc99126d4a2186b
+Content-Length: 141
+Content-Type: application/json; charset=utf-8;
+
+{"status":"ok","data":{"hash":"spnzpmtwoeby20160","iframe_url":"https:\/\/api-dist.secupay-ag.de\/payment\/spnzpmtwoeby20160"},"errors":null}

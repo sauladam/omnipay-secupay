@@ -1,0 +1,32 @@
+{
+    "name": "sauladam/omnipay-secupay",
+    "type": "library",
+    "description": "Secupay driver for the Omnipay payment processing library",
+    "keywords": [
+        "omnipay",
+        "secupay",
+        "debit",
+        "payment"
+    ],
+    "homepage": "https://github.com/sauladam/omnipay-secupay",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Saulius Adamonis"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "Omnipay\\Secupay\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "v2.1.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

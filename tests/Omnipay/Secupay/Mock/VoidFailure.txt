@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Date: Tue, 01 Apr 2014 12:59:08 GMT
+Server: Apache/2.2.16 (Debian)
+X-Powered-By: PHP/5.4.19
+Set-Cookie: WBS=RGCuFV1O5GT50li8cjcRBkPPugib7BXX; path=/; HttpOnly
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: must-revalidate
+Pragma: no-cache
+Content-MD5: 2330bbf456dcba149c942bb48e3d0312
+Content-Length: 99
+Content-Type: application/json; charset=utf-8;
+
+{"status":"failed","data":null,"errors":[{"code":"0008","message":"Hash wurde schon verarbeitet"}]}

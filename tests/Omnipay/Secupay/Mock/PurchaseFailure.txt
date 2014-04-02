@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Date: Mon, 31 Mar 2014 19:21:08 GMT
+Server: Apache/2.2.16 (Debian)
+X-Powered-By: PHP/5.4.19
+Set-Cookie: WBS=Glf3cXBes8qPD2kAH93dS0BeY3gXO8dv; path=/; HttpOnly
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: must-revalidate
+Pragma: no-cache
+Content-MD5: 1ca431ae6648f487e2e69eca6008b2e9
+Content-Length: 93
+Content-Type: application/json; charset=utf-8;
+
+{"status":"failed","data":null,"errors":[{"code":"0001","message":"Ung\u00fcltiger apikey"}]}

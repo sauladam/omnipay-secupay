@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Date: Mon, 31 Mar 2014 20:13:48 GMT
+Server: Apache/2.2.16 (Debian)
+X-Powered-By: PHP/5.4.19
+Set-Cookie: WBS=BFBYqRkumn4HaXRnWD48qIejRDBd3Ew5; path=/; HttpOnly
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: must-revalidate
+Pragma: no-cache
+Content-MD5: 37fe3451ca4ca155a3985ae0298c700b
+Content-Length: 160
+Content-Type: application/json; charset=utf-8;
+
+{"status":"ok","data":{"hash":"xthlpleknqvt20214","status":"accepted","created":"2014-03-31 20:13:48","demo":1,"trans_id":"2449700","amount":100},"errors":null}
