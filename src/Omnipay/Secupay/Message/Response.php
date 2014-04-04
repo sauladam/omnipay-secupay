@@ -10,6 +10,9 @@ use Omnipay\Common\Message\RequestInterface;
  */
 class Response extends AbstractResponse
 {
+    protected $request;
+    protected $data;
+
     public function __construct(RequestInterface $request, $data)
     {
         $this->request = $request;
