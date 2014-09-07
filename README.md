@@ -13,13 +13,13 @@ processing library for PHP 5.3+. This package implements Secupay support for Omn
 
 ## Installation
 
-Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply add it
+This package is installed via [Composer](http://getcomposer.org/). To install, simply add it
 to your `composer.json` file:
 
 ```json
 {
     "require": {
-        "sauladam/omnipay-secupay": "~2.0"
+        "sauladam/omnipay-secupay": "dev-master"
     }
 }
 ```
