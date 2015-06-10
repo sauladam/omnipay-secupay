@@ -320,7 +320,7 @@ class InitRequest extends AbstractRequest
     {
         $customerDetails = $this->getCustomerDetails();
 
-        if ( ! $customerDetails) {
+        if (! $customerDetails) {
             return $data;
         }
 
@@ -379,7 +379,7 @@ class InitRequest extends AbstractRequest
      */
     protected function addDeliveryAddress(array $data)
     {
-        if ( ! $this->getDeliveryAddress()) {
+        if (! $this->getDeliveryAddress()) {
             return $data;
         }
 
