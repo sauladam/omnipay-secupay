@@ -2,61 +2,60 @@
 
 namespace Omnipay\Secupay\Message;
 
-use Omnipay\Tests\TestCase;
-
-class PurchaseRequestTest extends TestCase
+class PurchaseRequestTest extends InitRequestTest
 {
-    private $request;
 
-    private $options;
+    /**
+     * @var PurchaseRequest
+     */
+    protected $request;
 
+    /**
+     * @var array
+     */
+    protected $options;
+
+
+    /**
+     * Set up the testing environment.
+     */
     public function setUp()
     {
-        $client = $this->getHttpClient();
-        $request = $this->getHttpRequest();
+        parent::setUp();
 
-        $this->request = new PurchaseRequest($client, $request);
+        $request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
 
-        $this->options = array(
-            'apiKey' => 'someApiKey',
-            'paymentType' => 'debit',
-            'amount' => (float) 100,
-            'currency' => 'EUR',
-            'urlSuccess' => 'http://www.test.com/success',
-            'urlFailure' => 'http://www.test.com/failure',
-            'urlPush' => 'http://www.test.com/push',
-            'paymentData' => array(
-                'accountowner' => 'Some Guy',
-                'accountnumber' => '123456',
-                'bankcode' => '654321',
-            ),
-        );
+        $options = array_merge($this->options, [
+            'paymentData' => [
+                'accountOwner'  => 'Some Guy',
+                'accountNumber' => '123456',
+                'bankCode'      => '654321',
+            ]
+        ]);
 
-        $this->request->initialize($this->options);
+        $this->request = $request->initialize($options);
+        $this->options = $options;
     }
 
-    public function testGetData()
-    {
-        $data = $this->request->getData();
 
-        $this->assertSame($this->options['apiKey'], $data['data']['apikey']);
-        $this->assertSame($this->options['paymentType'], $data['data']['payment_type']);
-        $this->assertSame($this->options['amount'], (float) $data['data']['amount']);
-        $this->assertSame($this->options['currency'], $data['data']['currency']);
-        $this->assertSame($this->options['urlSuccess'], $data['data']['url_success']);
-        $this->assertSame($this->options['urlFailure'], $data['data']['url_failure']);
-        $this->assertSame($this->options['urlPush'], $data['data']['url_push']);
-        $this->assertSame($this->options['paymentData'], $data['data']['payment_data']);
+    /** @test */
+    public function it_gets_the_purchase_specific_data_correctly()
+    {
+        $data = $this->request->getData()['data'];
+
+        $this->assertSame($this->options['paymentData']['accountOwner'], $data['payment_data']['accountowner']);
+        $this->assertSame($this->options['paymentData']['accountNumber'], $data['payment_data']['accountnumber']);
+        $this->assertSame($this->options['paymentData']['bankCode'], $data['payment_data']['bankcode']);
     }
 
-    public function testSend()
+
+    /** @test */
+    public function it_returns_the_expected_response_type()
     {
-        $this->setMockHttpResponse('InitSuccess.txt');
+        $this->setMockHttpResponse('PurchaseSuccess.txt');
 
         $response = $this->request->send();
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('spnzpmtwoeby20160', $response->getTransactionReference());
-        $this->assertNull($response->getMessage());
+        $this->assertInstanceOf('Omnipay\Secupay\Message\Response', $response);
     }
 }

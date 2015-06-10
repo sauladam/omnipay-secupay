@@ -2,36 +2,69 @@
 
 namespace Omnipay\Secupay\Message;
 
-/**
- * Secupay Purchase Request
- */
-class PurchaseRequest extends AbstractRequest
+class PurchaseRequest extends InitRequest
 {
+
+    /**
+     * @var string
+     */
     protected $namespace = 'payment';
+
+    /**
+     * @var string
+     */
     protected $action = 'init';
 
+
+    /**
+     * Get the data for the request.
+     *
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
     public function getData()
     {
-        $this->validate('apiKey', 'paymentType', 'urlSuccess', 'urlFailure', 'paymentData');
+        $this->validate('apiKey', 'paymentData');
 
-        $data = parent::getBaseData();
+        $data = parent::getData();
 
-        $data['data']['payment_type'] = $this->getPaymentType();
-        $data['data']['demo'] = parent::getDemoValue();
-        $data['data']['amount'] = $this->getAmount();
-        $data['data']['currency'] = $this->getCurrency();
-        $data['data']['url_success'] = $this->getUrlSuccess();
-        $data['data']['url_failure'] = $this->getUrlFailure();
-        $data['data']['url_push'] = $this->getUrlPush();
-        $data['data']['payment_data'] = $this->getPaymentData();
+        $data['data']['payment_data'] = array_change_key_case($this->getPaymentData(), CASE_LOWER);
 
         return $data;
     }
 
+
+    /**
+     * Get the endpoint for this request.
+     *
+     * @return string
+     */
     public function getEndpoint()
     {
-        $endpoint = parent::getEndpoint();
+        return parent::getEndpoint();
+    }
 
-        return "{$endpoint}/{$this->namespace}/{$this->action}";
+
+    /**
+     * Get the payment data.
+     *
+     * @return null|array
+     */
+    public function getPaymentData()
+    {
+        return $this->getParameter('paymentData');
+    }
+
+
+    /**
+     * Set the payment data.
+     *
+     * @param array $value
+     *
+     * @return $this
+     */
+    public function setPaymentData($value)
+    {
+        return $this->setParameter('paymentData', $value);
     }
 }

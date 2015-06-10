@@ -6,39 +6,50 @@ use Omnipay\Tests\TestCase;
 
 class TypesRequestTest extends TestCase
 {
-    private $request;
 
-    private $options;
+    /**
+     * @var TypesRequest
+     */
+    protected $request;
 
+    /**
+     * @var array
+     */
+    protected $options;
+
+
+    /**
+     * Set up the testing environment.
+     */
     public function setUp()
     {
-        $client = $this->getHttpClient();
-        $request = $this->getHttpRequest();
+        $request = new TypesRequest($this->getHttpClient(), $this->getHttpRequest());
 
-        $this->request = new TypesRequest($client, $request);
-
-        $this->options = array(
+        $options = [
             'apiKey' => 'someApiKey',
-        );
+        ];
 
-        $this->request->initialize($this->options);
+        $this->request = $request->initialize($options);
+        $this->options = $options;
     }
 
-    public function testGetData()
+
+    /** @test */
+    public function it_gets_the_correct_data_from_the_request()
     {
-        $data = $this->request->getData();
+        $data = $this->request->getData()['data'];
 
-        $this->assertSame($this->options['apiKey'], $data['data']['apikey']);
+        $this->assertSame($this->options['apiKey'], $data['apikey']);
     }
 
-    public function testSend()
+
+    /** @test */
+    public function it_returns_the_expected_response_type()
     {
         $this->setMockHttpResponse('TypesSuccess.txt');
 
         $response = $this->request->send();
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertNotNull($response->getData());
-        $this->assertInternalType('array', $response->getData());
+        $this->assertInstanceOf('Omnipay\Secupay\Message\Response', $response);
     }
 }

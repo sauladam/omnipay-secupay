@@ -2,132 +2,139 @@
 
 namespace Omnipay\Secupay\Message;
 
-/**
- * Secupay Abstract Request
- */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
+
     const API_VERSION = '2.3.9';
 
+    /**
+     * @var string
+     */
     protected $liveEndpoint = 'https://api.secupay.ag';
+
+    /**
+     * @var string
+     */
     protected $testEndpoint = 'https://api-dist.secupay-ag.de';
 
+
+    /**
+     * Get the API key.
+     *
+     * @return string
+     */
     public function getApiKey()
     {
         return $this->getParameter('apiKey');
     }
 
+
+    /**
+     * Set the API key.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
     public function setApiKey($value)
     {
         return $this->setParameter('apiKey', $value);
     }
 
+
+    /**
+     * Get the payment type.
+     *
+     * @return string
+     */
     public function getPaymentType()
     {
         return $this->getParameter('paymentType');
     }
 
+
+    /**
+     * Set the payment type.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
     public function setPaymentType($value)
     {
         return $this->setParameter('paymentType', $value);
     }
 
+
+    /**
+     * Get the transaction reference hash.
+     *
+     * @return string
+     */
     public function getHash()
     {
         return $this->getParameter('hash');
     }
 
+
+    /**
+     * Set the transaction reference hash.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
     public function setHash($value)
     {
         return $this->setParameter('hash', $value);
     }
 
-    public function getUrlSuccess()
-    {
-        return $this->getParameter('urlSuccess');
-    }
 
-    public function setUrlSuccess($value)
-    {
-        return $this->setParameter('urlSuccess', $value);
-    }
-
-    public function getUrlFailure()
-    {
-        return $this->getParameter('urlFailure');
-    }
-
-    public function setUrlFailure($value)
-    {
-        return $this->setParameter('urlFailure', $value);
-    }
-
-    public function getUrlPush()
-    {
-        return $this->getParameter('urlPush');
-    }
-
-    public function setUrlPush($value)
-    {
-        return $this->setParameter('urlPush', $value);
-    }
-
-    public function getPaymentData()
-    {
-        return $this->getParameter('paymentData');
-    }
-
-    public function setPaymentData($value)
-    {
-        return $this->setParameter('paymentData', $value);
-    }
-
-    public function getIframeUrl()
-    {
-        return $this->getParameter('iframeUrl');
-    }
-
-    public function setIframeUrl($value)
-    {
-        return $this->setParameter('iframeUrl', $value);
-    }
-
+    /**
+     * Get the common base data for each request.
+     *
+     * @return array
+     */
     public function getBaseData()
     {
-        return array(
-            'data' => array(
+        return [
+            'data' => [
                 'apikey' => $this->getApiKey(),
-            )
-        );
+            ]
+        ];
     }
 
+
+    /**
+     * Get the enpoint URL for the request.
+     *
+     * @return string
+     */
     protected function getEndpoint()
     {
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 
+
+    /**
+     * Get the value indicating if the gateway is in
+     * test or in production mode.
+     *
+     * @return string
+     */
     protected function getDemoValue()
     {
         return $this->getTestMode() ? '1' : '0';
     }
 
-    public function setAmount($value)
-    {
-        $biassed = $value != (int) $value;
 
-        if ($biassed) {
-            $message = 'The amount must be give in the smallest currency-unit!';
-            throw new \Omnipay\Common\Exception\InvalidRequestException($message);
-        }
-
-        return $this->setParameter('amount', (int) $value);
-    }
-
-    public function getAmount()
-    {
-        return $this->getParameter('amount');
-    }
-
+    /**
+     * Send the request with the given data.
+     *
+     * @param array $data
+     *
+     * @return Response
+     */
     public function sendData($data)
     {
         $url = $this->getEndpoint();
@@ -139,6 +146,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->createResponse($httpResponse->json());
     }
 
+
+    /**
+     * Create the response.
+     *
+     * @param array $data
+     *
+     * @return Response
+     */
     protected function createResponse($data)
     {
         return $this->response = new Response($this, $data);

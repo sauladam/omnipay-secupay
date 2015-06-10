@@ -6,41 +6,52 @@ use Omnipay\Tests\TestCase;
 
 class CaptureRequestTest extends TestCase
 {
-    private $request;
 
-    private $options;
+    /**
+     * @var array
+     */
+    protected $options;
 
+    /**
+     * @var CaptureRequest
+     */
+    protected $request;
+
+
+    /**
+     * Set up the testing environment.
+     */
     public function setUp()
     {
-        $client = $this->getHttpClient();
-        $request = $this->getHttpRequest();
+        $request = new CaptureRequest($this->getHttpClient(), $this->getHttpRequest());
 
-        $this->request = new CaptureRequest($client, $request);
-
-        $this->options = array(
+        $options = [
             'apiKey' => 'someApiKey',
-            'hash' => 'someHash'
-        );
+            'hash'   => 'someHash'
+        ];
 
-        $this->request->initialize($this->options);
+        $this->request = $request->initialize($options);
+        $this->options = $options;
     }
 
-    public function testGetData()
+
+    /** @test */
+    public function it_gets_the_expected_data_from_the_request()
     {
-        $data = $this->request->getData();
+        $data = $this->request->getData()['data'];
 
-        $this->assertSame($this->options['apiKey'], $data['data']['apikey']);
-        $this->assertSame($this->options['hash'], $data['data']['hash']);
+        $this->assertSame($this->options['apiKey'], $data['apikey']);
+        $this->assertSame($this->options['hash'], $data['hash']);
     }
 
-    public function testSend()
+
+    /** @test */
+    public function it_returns_the_expected_response_type()
     {
         $this->setMockHttpResponse('CaptureSuccess.txt');
 
         $response = $this->request->send();
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('vcikqjglpdti20245', $response->getTransactionReference());
-        $this->assertNull($response->getMessage());
+        $this->assertInstanceOf('Omnipay\Secupay\Message\Response', $response);
     }
 }

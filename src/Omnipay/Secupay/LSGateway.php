@@ -2,24 +2,33 @@
 
 namespace Omnipay\Secupay;
 
-/**
- * Secupay debit payment class
- */
 class LSGateway extends AbstractSecupayGateway
 {
+
+    /**
+     * Get the gateway name.
+     *
+     * @return string
+     */
     public function getName()
     {
         return 'Secupay Debit';
     }
 
+
+    /**
+     * Get the default parameters.
+     *
+     * @return array
+     */
     public function getDefaultParameters()
     {
         $commonParameters = parent::getDefaultParameters();
 
-        $specificParameters = array(
+        $specificParameters = [
             'paymentType' => 'debit',
             'testMode' => true,
-        );
+        ];
 
         return array_merge($commonParameters, $specificParameters);
     }

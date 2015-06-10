@@ -2,59 +2,31 @@
 
 namespace Omnipay\Secupay\Message;
 
-use Omnipay\Tests\TestCase;
-
-class PurchaseResponseTest extends TestCase
+class PurchaseResponseTest extends AbstractResponseTest
 {
-    public function testPurchaseSuccess()
+
+    /** @test */
+    public function it_gets_the_expected_data_from_a_successful_purchase_response()
     {
-        $httpResponse = $this->getMockHttpResponse('PurchaseSuccess.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->json());
+        $this->setResponse('PurchaseSuccess');
 
-        /* Check the request details */
-        $this->assertTrue($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertSame('ok', $response->getStatus());
+        $this->isSuccessful();
+        $this->hasNoErrors();
+        $this->hasTransactionDetails([ 'reference' => 'wuyluuriqeqy20205' ]);
 
-        /* Check the errors */
-        $this->assertNull($response->getMessage());
-        $this->assertNull($response->getErrorCode());
-        $this->assertNull($response->getErrors());
-
-        /* Check the transaction details */
-        $this->assertSame('wuyluuriqeqy20205', $response->getTransactionReference());
-        $this->assertNull($response->getTransactionId());
-        $this->assertNull($response->getTransactionStatus());
-
-        /* Check the additional data */
-        $this->assertNotNull($response->getData());
-        $this->assertSame('https://api-dist.secupay-ag.de/payment/wuyluuriqeqy20205', $response->getIframeUrl());
-        $this->assertNotNull($response->getRaw());
+        $iframeUrl = 'https://api-dist.secupay-ag.de/payment/wuyluuriqeqy20205';
+        $this->assertSame($iframeUrl, $this->response->getIframeUrl());
     }
 
-    public function testPurchaseFailure()
+
+    /** @test */
+    public function it_gets_the_expected_data_from_a_failed_purchase_response()
     {
-        $httpResponse = $this->getMockHttpResponse('PurchaseFailure.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->json());
+        $this->setResponse('PurchaseFailure');
 
-        /* Check the request details */
-        $this->assertFalse($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertSame('failed', $response->getStatus());
-
-        /* Check the errors */
-        $this->assertSame('Ungültiger apikey', $response->getMessage());
-        $this->assertSame('0001', $response->getErrorCode());
-        $this->assertNotNull($response->getErrors());
-
-        /* Check the transaction details */
-        $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getTransactionId());
-        $this->assertNull($response->getTransactionStatus());
-
-        /* Check the additional data */
-        $this->assertNull($response->getData());
-        $this->assertNull($response->getIframeUrl());
-        $this->assertNotNull($response->getRaw());
+        $this->isNotSuccessful();
+        $this->hasError('0001', 'Ungültiger apikey');
+        $this->hasNoTransactionDetails();
+        $this->assertNull($this->response->getIframeUrl());
     }
 }

@@ -2,60 +2,30 @@
 
 namespace Omnipay\Secupay\Message;
 
-use Omnipay\Tests\TestCase;
-
-class TypesResponseTest extends TestCase
+class TypesResponseTest extends AbstractResponseTest
 {
-    public function testTypesSuccess()
+
+    /** @test */
+    public function it_gets_the_expected_data_from_a_successful_types_response()
     {
-        $httpResponse = $this->getMockHttpResponse('TypesSuccess.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->json());
+        $this->setResponse('TypesSuccess');
 
-        /* Check the request details */
-        $this->assertTrue($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertSame('ok', $response->getStatus());
+        $this->isSuccessful();
+        $this->hasNoErrors();
+        $this->hasNoTransactionDetails();
 
-        /* Check the errors */
-        $this->assertNull($response->getMessage());
-        $this->assertNull($response->getErrorCode());
-        $this->assertNull($response->getErrors());
-
-        /* Check the transaction details */
-        $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getTransactionId());
-        $this->assertNull($response->getTransactionStatus());
-
-        /* Check the additional data */
-        $this->assertContains('debit', $response->getData());
-        $this->assertContains('creditcard', $response->getData());
-        $this->assertNull($response->getIframeUrl());
-        $this->assertNotNull($response->getRaw());
+        $this->assertContains('debit', $this->response->getData());
+        $this->assertContains('creditcard', $this->response->getData());
     }
 
-    public function testTypesFailure()
+
+    /** @test */
+    public function it_gets_the_expected_data_from_a_failed_types_response()
     {
-        $httpResponse = $this->getMockHttpResponse('TypesFailure.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->json());
+        $this->setResponse('TypesFailure');
 
-        /* Check the request details */
-        $this->assertFalse($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertSame('error', $response->getStatus());
-
-        /* Check the errors */
-        $this->assertSame('Ungültiger apikey', $response->getMessage());
-        $this->assertSame('0001', $response->getErrorCode());
-        $this->assertNotNull($response->getErrors());
-
-        /* Check the transaction details */
-        $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getTransactionId());
-        $this->assertNull($response->getTransactionStatus());
-
-        /* Check the additional data */
-        $this->assertNull($response->getData());
-        $this->assertNull($response->getIframeUrl());
-        $this->assertNotNull($response->getRaw());
+        $this->isNotSuccessful('error');
+        $this->hasError('0001', 'Ungültiger apikey');
+        $this->hasNoTransactionDetails();
     }
 }

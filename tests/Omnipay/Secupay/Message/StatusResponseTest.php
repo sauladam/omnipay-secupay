@@ -2,59 +2,31 @@
 
 namespace Omnipay\Secupay\Message;
 
-use Omnipay\Tests\TestCase;
-
-class StatusResponseTest extends TestCase
+class StatusResponseTest extends AbstractResponseTest
 {
-    public function testStatusSuccess()
+
+    /** @test */
+    public function it_gets_the_expected_data_from_a_successful_status_response()
     {
-        $httpResponse = $this->getMockHttpResponse('StatusSuccess.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->json());
+        $this->setResponse('StatusSuccess');
 
-        /* Check the request details */
-        $this->assertTrue($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertSame('ok', $response->getStatus());
-
-        /* Check the errors */
-        $this->assertNull($response->getMessage());
-        $this->assertNull($response->getErrorCode());
-        $this->assertNull($response->getErrors());
-
-        /* Check the transaction details */
-        $this->assertSame('xthlpleknqvt20214', $response->getTransactionReference());
-        $this->assertSame('2449700', $response->getTransactionId());
-        $this->assertSame('accepted', $response->getTransactionStatus());
-
-        /* Check the additional data */
-        $this->assertNotNull($response->getData());
-        $this->assertNull($response->getIframeUrl());
-        $this->assertNotNull($response->getRaw());
+        $this->isSuccessful();
+        $this->hasNoErrors();
+        $this->hasTransactionDetails([
+            'reference' => 'xthlpleknqvt20214',
+            'id'        => '2449700',
+            'status'    => 'accepted',
+        ]);
     }
 
-    public function testStatusFailure()
+
+    /** @test */
+    public function it_gets_the_expected_data_from_a_failed_status_response()
     {
-        $httpResponse = $this->getMockHttpResponse('StatusFailure.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->json());
+        $this->setResponse('StatusFailure');
 
-        /* Check the request details */
-        $this->assertFalse($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertSame('failed', $response->getStatus());
-
-        /* Check the errors */
-        $this->assertSame('Ungültiger hash', $response->getMessage());
-        $this->assertSame('0002', $response->getErrorCode());
-        $this->assertNotNull($response->getErrors());
-
-        /* Check the transaction details */
-        $this->assertSame('stuff', $response->getTransactionReference());
-        $this->assertNull($response->getTransactionId());
-        $this->assertNull($response->getTransactionStatus());
-
-        /* Check the additional data */
-        $this->assertNotNull($response->getData());
-        $this->assertNull($response->getIframeUrl());
-        $this->assertNotNull($response->getRaw());
+        $this->isNotSuccessful();
+        $this->hasError('0002', 'Ungültiger hash');
+        $this->hasTransactionDetails([ 'reference' => 'stuff' ]);
     }
 }

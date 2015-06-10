@@ -2,24 +2,33 @@
 
 namespace Omnipay\Secupay;
 
-/**
- * Secupay credit card  payment class
- */
 class KKGateway extends AbstractSecupayGateway
 {
+
+    /**
+     * Get the gateway name.
+     *
+     * @return string
+     */
     public function getName()
     {
         return 'Secupay Credit Card';
     }
 
+
+    /**
+     * Get the default parameters.
+     *
+     * @return array
+     */
     public function getDefaultParameters()
     {
         $commonParameters = parent::getDefaultParameters();
 
-        $specificParameters = array(
+        $specificParameters = [
             'paymentType' => 'creditcard',
-            'testMode' => true,
-        );
+            'testMode'    => true,
+        ];
 
         return array_merge($commonParameters, $specificParameters);
     }

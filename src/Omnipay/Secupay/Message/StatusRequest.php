@@ -2,14 +2,26 @@
 
 namespace Omnipay\Secupay\Message;
 
-/**
- * Secupay Status Request
- */
 class StatusRequest extends AbstractRequest
 {
+
+    /**
+     * @var string
+     */
     protected $namespace = 'payment';
+
+    /**
+     * @var string
+     */
     protected $action = 'status';
 
+
+    /**
+     * Get the data for the request.
+     *
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
     public function getData()
     {
         $this->validate('apiKey', 'hash');
@@ -21,6 +33,12 @@ class StatusRequest extends AbstractRequest
         return $data;
     }
 
+
+    /**
+     * Get the endpoint for the request.
+     *
+     * @return string
+     */
     public function getEndpoint()
     {
         $endpoint = parent::getEndpoint();

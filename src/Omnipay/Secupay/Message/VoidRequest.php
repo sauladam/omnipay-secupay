@@ -2,14 +2,26 @@
 
 namespace Omnipay\Secupay\Message;
 
-/**
- * Secupay Void Request
- */
 class VoidRequest extends AbstractRequest
 {
+
+    /**
+     * @var string
+     */
     protected $namespace = 'payment';
+
+    /**
+     * @var string
+     */
     protected $action = 'void';
 
+
+    /**
+     * Get the data for the request.
+     *
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
     public function getData()
     {
         $this->validate('apiKey', 'hash');
@@ -21,10 +33,16 @@ class VoidRequest extends AbstractRequest
         return $data;
     }
 
+
+    /**
+     * Get the endpoint URL for the request.
+     *
+     * @return string
+     */
     public function getEndpoint()
     {
         $endpoint = parent::getEndpoint();
-        $hash = $this->getHash();
+        $hash     = $this->getHash();
 
         return "{$endpoint}/{$this->namespace}/{$hash}/{$this->action}";
     }

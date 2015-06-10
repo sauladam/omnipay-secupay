@@ -16,13 +16,13 @@
         }
     ],
     "autoload": {
-        "psr-0": { "Omnipay\\Secupay\\" : "src/" }
+        "psr-4": { "Omnipay\\Secupay\\" : "src/Omnipay/Secupay" }
     },
     "require": {
-        "omnipay/common": "~2.0"
+        "omnipay/common": "~2"
     },
     "require-dev": {
-        "omnipay/tests": "~2.0"
+        "omnipay/tests": "dev-master"
     },
     "extra": {
         "branch-alias": {

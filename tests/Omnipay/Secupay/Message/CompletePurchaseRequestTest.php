@@ -6,39 +6,42 @@ use Omnipay\Tests\TestCase;
 
 class CompletePurchaseRequestTest extends TestCase
 {
-    private $request;
 
+    /**
+     * @var CompletePurchaseRequest
+     */
+    protected $request;
+
+    /**
+     * @var array
+     */
+    protected $options;
+
+
+    /**
+     * Set up the testing environment.
+     */
     public function setUp()
     {
-        $client = $this->getHttpClient();
-        $request = $this->getHttpRequest();
+        $request = new CompletePurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
 
-        $this->request = new CompletePurchaseRequest($client, $request);
-
-        $this->options = array(
-            'apiKey' => 'someApiKey',
+        $options = [
+            'apiKey'    => 'someApiKey',
             'iframeUrl' => 'https://api-dist.secupay-ag.de/payment/ejwyhqidngzu20208',
-        );
+        ];
 
-        $this->request->initialize($this->options);
+        $this->request = $request->initialize($options);
+        $this->options = $options;
     }
 
-    public function testGetData()
-    {
-        $data = $this->request->getData();
 
-        $this->assertSame($this->options['apiKey'], $data['data']['apikey']);
-        $this->assertSame($this->options['iframeUrl'], $this->request->getIframeUrl());
-    }
-
-    public function testSend()
+    /** @test */
+    public function it_returns_the_expected_response_type()
     {
         $this->setMockHttpResponse('CompletePurchaseSuccess.txt');
 
         $response = $this->request->send();
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertNull($response->getMessage());
+        $this->assertInstanceOf('Omnipay\Secupay\Message\Response', $response);
     }
 }
