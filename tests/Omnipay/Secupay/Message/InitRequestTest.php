@@ -61,10 +61,9 @@ class InitRequestTest extends TestCase
         $this->assertNull($this->request->getCustomerDetails());
 
         $customerDetails = [
-            'title'     => 'Mr.', //optional
-            'firstName' => 'Homer',
-            'lastName'  => 'Simpson',
             'address'   => [
+                'firstName' => 'Homer',
+                'lastName'  => 'Simpson',
                 'company'     => 'Fake Inc.', //optional
                 'street'      => 'Fakestreet',
                 'houseNumber' => '123',
@@ -72,6 +71,7 @@ class InitRequestTest extends TestCase
                 'city'        => 'Fake City',
                 'country'     => 'DE',
             ],
+            'title'     => 'Mr.', //optional
             'email'     => 'homer.simpson@springfield.com',
             'phone'     => '123-123456', //optional
             'dob'       => '13.12.2011', //optional
@@ -83,14 +83,14 @@ class InitRequestTest extends TestCase
         $data = $this->request->getData()['data'];
 
         $this->assertSame($customerDetails['title'], $data['title']);
-        $this->assertSame($customerDetails['firstName'], $data['firstname']);
-        $this->assertSame($customerDetails['lastName'], $data['lastname']);
         $this->assertSame($customerDetails['email'], $data['email']);
         $this->assertSame($customerDetails['phone'], $data['telephone']);
         $this->assertSame($customerDetails['dob'], $data['dob']);
         $this->assertSame($customerDetails['ip'], $data['ip']);
 
         $address = $customerDetails['address'];
+        $this->assertSame($address['firstName'], $data['firstname']);
+        $this->assertSame($address['lastName'], $data['lastname']);
         $this->assertSame($address['company'], $data['company']);
         $this->assertSame($address['street'], $data['street']);
         $this->assertSame($address['houseNumber'], $data['housenumber']);

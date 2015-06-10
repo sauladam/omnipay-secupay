@@ -324,20 +324,22 @@ class InitRequest extends AbstractRequest
             return $data;
         }
 
-        $data['firstname'] = $customerDetails['firstName'];
-        $data['lastname']  = $customerDetails['lastName'];
-
+        $data['firstname']   = $customerDetails['address']['firstName'];
+        $data['lastname']    = $customerDetails['address']['lastName'];
         $data['street']      = $customerDetails['address']['street'];
         $data['housenumber'] = $customerDetails['address']['houseNumber'];
         $data['zip']         = $customerDetails['address']['zip'];
         $data['city']        = $customerDetails['address']['city'];
         $data['country']     = $customerDetails['address']['country'];
 
+        if (array_key_exists('company', $customerDetails['address'])) {
+            $data['company'] = $customerDetails['address']['company'];
+        }
+
         if (array_key_exists('phone', $customerDetails)) {
             $data['telephone'] = $customerDetails['phone'];
         }
 
-        $data = $this->addFromArrayIfExists([ 'company' ], $customerDetails['address'], $data);
         $data = $this->addFromArrayIfExists([ 'title', 'email', 'dob', 'ip' ], $customerDetails, $data);
 
         return $data;
