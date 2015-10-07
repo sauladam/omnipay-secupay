@@ -33,13 +33,109 @@ And run composer to update your dependencies:
 
 The following gateways are provided by this package:
 
-* Secupay Debit (Lastschrift)
-* Secupay Credit Card (Kreditkarte)
+* Secupay_LS (Direct Debit)
+* Secupay_KK (Credit Card)
 
 For general usage instructions, please see the main [Omnipay](https://github.com/omnipay/omnipay)
 repository.
 
+### Setting up the gateway
+This is quite simple because the API only needs an API key.
+
+```php
+require 'vendor/autoload.php';
+
+use Omnipay\Omnipay;
+
+$gateway = Omnipay::create('Secupay_LS'); // or 'Secupay_KK' for credit card
+$gateway->setApiKey('yourApiKey');
+$gateway->setTestMode(false); // Testmode is on by default, so you want to switch it off for production.
+```
+You can also specify if you want to use the dist system. This is some kind of test environment that won't mess with your actual Secupay account. The transactions won't appear in your Secupay backend. It's recommended for "initial development" to make sure to not screw anything up. **This has nothing to do with the test-mode** and if you don't quite understand the purpose, just leave it as it is, otherwise you can switch it on an off as you like.
+
+```php
+$gateway->setUseDistSystem(true); // false by default
+```
+
+### Initializing a payment
+Since Secupay will have to do some risk checking, you should provide it a reasonable amount of data about the payment amount, the person paying it and the shipping destination:
+
+```php
+$response = $gateway->authorize([
+    'amount'          => 1234, // the payment amount in the smalles currency unit
+    'currency'        => 'EUR', // the currency ISO code
+    'urlSuccess'      => 'https://example.com/success',
+    'urlFailure'      => 'https://example.com/failure',
+    'urlPush'         => 'https://example.com/push', // optional
+    'customerDetails' => [
+            'email'   => 'user@example.com', // optional
+            'ip'      '123.456.789.123', // optional
+            'address' => [
+                'firstName'   => 'Billing Firstname',
+                'lastName'    => 'Billing Lastname',
+                'street'      => 'Billing Street',
+                'houseNumber' => '4a',
+                'zip'         => '12345',
+                'city'        => 'Billing City',
+                'country'     => 'DE',
+            ],
+    ],
+    'deliveryAddress' => [
+        'firstName'   => 'Delivery Firstname',
+        'lastName'    => 'Delivery Lastname',
+        'street'      => 'Delivery Street',
+        'houseNumber' => '4a',
+        'zip'         => '12345',
+        'city'        => 'Billing City',
+        'country'     => 'DE',
+    ],
+])->send();
+
+if ($response->isSuccessful()) {
+    $transactionReference = $response->getTransactionReference(); // this is the hash for subsequent API interactions
+    
+    $transactionId = $response->getTransactionId(); // this is the id that references the actual payment and that you'll see in the Secupay backend
+    
+    $iframeUrl = $response->getIframeUrl(); // this is the url you should redirect the customer to or display within an iframe
+} else {
+    echo 'Something went wrong: ' . $response->getMessage();
+}
+```
+The iframeUrl points to a (secure) page where the customer can enter her Credit Card / Debit Card data. You probably don't want that kind of data to ever touch your own server, so Secupay provides a form with the necessary fields, encryption and checks. You can either redirect the customer to that URL or embed it as an iframe and display it to them - either is fine.
+
+After the customer has filled out and submitted the form, Secupay will redirect them to what you've specified as you *urlSuccess* in the authorize request. Ideally that URL should contain some kind of payment identifier or some reference to your previously stored `$transactionReference`, because you now need it to check the status of this transaction:
+
+### Check the status
+```php
+$response = $gateway->status([
+    'hash' => $transactionReference,
+])->send();
+```
+The status now must be *accepted*, so check for that:
+```php
+if($response->getTransactionStatus() == 'accepted')
+{
+    // everything was fine, the payment went through, the order is now ready to ship.
+}
+```
+
+And that's pretty much all there is to it. If you want to void / cancel that transaction, you can do so:
+
+### Void a transaction
+```php
+$response = $gateway->void([
+    'hash' => $transactionReference,
+])->send();
+
+if($response->isSuccessful())
+{
+    // The transaction has now become void
+}
+```
+
 ## Support
+
+For more usage examples please have a look at the tests of this package. Also have a look at the [Secupay API Documentation](https://github.com/secupay/doc-flex-api) for further details.
 
 If you are having general issues with Omnipay, we suggest posting on
 [Stack Overflow](http://stackoverflow.com/). Be sure to add the
