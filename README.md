@@ -62,7 +62,7 @@ Since Secupay will have to do some risk checking, you should provide it a reason
 
 ```php
 $response = $gateway->authorize([
-    'amount'          => 1234, // the payment amount in the smalles currency unit
+    'amount'          => 1234, // the payment amount in the smallest currency unit
     'currency'        => 'EUR', // the currency ISO code
     'urlSuccess'      => 'https://example.com/success',
     'urlFailure'      => 'https://example.com/failure',
@@ -86,22 +86,25 @@ $response = $gateway->authorize([
         'street'      => 'Delivery Street',
         'houseNumber' => '4a',
         'zip'         => '12345',
-        'city'        => 'Billing City',
+        'city'        => 'Delivery City',
         'country'     => 'DE',
     ],
 ])->send();
 
 if ($response->isSuccessful()) {
-    $transactionReference = $response->getTransactionReference(); // this is the hash for subsequent API interactions
+    // this is the hash for subsequent API interactions
+    $transactionReference = $response->getTransactionReference(); 
     
-    $transactionId = $response->getTransactionId(); // this is the id that references the actual payment and that you'll see in the Secupay backend
+    // this is the id that references the actual payment and that you'll see in the Secupay backend
+    $transactionId = $response->getTransactionId();
     
-    $iframeUrl = $response->getIframeUrl(); // this is the url you should redirect the customer to or display within an iframe
+    // this is the url you should redirect the customer to or display within an iframe
+    $iframeUrl = $response->getIframeUrl();
 } else {
     echo 'Something went wrong: ' . $response->getMessage();
 }
 ```
-The iframeUrl points to a (secure) page where the customer can enter her Credit Card / Debit Card data. You probably don't want that kind of data to ever touch your own server, so Secupay provides a form with the necessary fields, encryption and checks. You can either redirect the customer to that URL or embed it as an iframe and display it to them - either is fine.
+The iframeUrl points to a (secure) page where the customer can enter her Credit Card / Debit Card data. You probably don't want that kind of data to ever touch your own server, so Secupay provides a form with the necessary fields, encryption and checks. You can redirect the customer to that URL or embed it as an iframe and display it to them - either is fine.
 
 After the customer has filled out and submitted the form, Secupay will redirect them to what you've specified as you *urlSuccess* in the authorize request. Ideally that URL should contain some kind of payment identifier or some reference to your previously stored `$transactionReference`, because you now need it to check the status of this transaction:
 
@@ -115,7 +118,7 @@ The status now must be *accepted*, so check for that:
 ```php
 if($response->getTransactionStatus() == 'accepted')
 {
-    // everything was fine, the payment went through, the order is now ready to ship.
+    // Everything was fine, the payment went through, the order is now ready to ship.
 }
 ```
 
@@ -129,7 +132,7 @@ $response = $gateway->void([
 
 if($response->isSuccessful())
 {
-    // The transaction has now become void
+    // The transaction has now become void.
 }
 ```
 
