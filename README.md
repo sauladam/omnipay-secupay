@@ -97,10 +97,6 @@ if ($response->isSuccessful()) {
     // this is the hash for subsequent API interactions
     $transactionReference = $response->getTransactionReference(); 
     
-    // this is the id that references the actual payment 
-    // and that you'll see in the Secupay backend
-    $transactionId = $response->getTransactionId();
-    
     // this is the url you should redirect the customer 
     // to or display within an iframe
     $iframeUrl = $response->getIframeUrl();
@@ -123,6 +119,11 @@ The status now must be *accepted*, so check for that:
 if($response->getTransactionStatus() == 'accepted')
 {
     // Everything was fine, the payment went through, the order is now ready to ship.
+    
+    // This is the id that references the actual payment 
+    // and that you'll see in the Secupay backend - not to be confused
+    // with the transaction reference for API queries.
+    $transactionId = $response->getTransactionId();
 }
 ```
 
