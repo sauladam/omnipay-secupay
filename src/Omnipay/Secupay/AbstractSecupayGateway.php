@@ -40,7 +40,9 @@ abstract class AbstractSecupayGateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return [
-            'apiKey' => '',
+            'apiKey'        => '',
+            'testMode'      => true,
+            'useDistSystem' => false,
         ];
     }
 
@@ -94,6 +96,30 @@ abstract class AbstractSecupayGateway extends AbstractGateway
          */
 
         return $this->setParameter('paymentType', $value);
+    }
+
+
+    /**
+     * Check if the dist system should be used.
+     *
+     * @return mixed
+     */
+    public function getUseDistSystem()
+    {
+        return $this->getParameter('useDistSystem');
+    }
+
+
+    /**
+     * Specify whether or not to use the dist system.
+     *
+     * @param bool $value
+     *
+     * @return $this
+     */
+    public function setUseDistSystem($value)
+    {
+        return $this->setParameter('useDistSystem', $value);
     }
 
 

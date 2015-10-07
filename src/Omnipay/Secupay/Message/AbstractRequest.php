@@ -15,7 +15,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * @var string
      */
-    protected $testEndpoint = 'https://api-dist.secupay-ag.de';
+    protected $distEndpoint = 'https://api-dist.secupay-ag.de';
 
 
     /**
@@ -67,6 +67,30 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
 
     /**
+     * Check if the dist system should be used.
+     *
+     * @return mixed
+     */
+    public function getUseDistSystem()
+    {
+        return $this->getParameter('useDistSystem');
+    }
+
+
+    /**
+     * Specify whether or not to use the dist system.
+     *
+     * @param bool $value
+     *
+     * @return $this
+     */
+    public function setUseDistSystem($value)
+    {
+        return $this->setParameter('useDistSystem', $value);
+    }
+
+
+    /**
      * Get the transaction reference hash.
      *
      * @return string
@@ -106,13 +130,15 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
 
     /**
-     * Get the enpoint URL for the request.
+     * Get the endpoint URL for the request.
      *
      * @return string
      */
     protected function getEndpoint()
     {
-        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+        return $this->getUseDistSystem()
+            ? $this->distEndpoint
+            : $this->liveEndpoint;
     }
 
 
@@ -124,7 +150,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     protected function getDemoValue()
     {
-        return $this->getTestMode() ? '1' : '0';
+        return $this->getTestMode()
+            ? '1'
+            : '0';
     }
 
 
