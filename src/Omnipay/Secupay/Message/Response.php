@@ -94,7 +94,7 @@ class Response extends AbstractResponse
      */
     public function getTransactionReference()
     {
-        if (isset( $this->data['data']['hash'] )) {
+        if (isset($this->data['data']['hash'])) {
             return $this->data['data']['hash'];
         }
 
@@ -113,7 +113,7 @@ class Response extends AbstractResponse
          * This is an internal transaction reference and not
          * a reference for the API-communication
          */
-        if (isset( $this->data['data']['trans_id'] )) {
+        if (isset($this->data['data']['trans_id'])) {
             return $this->data['data']['trans_id'];
         }
 
@@ -128,7 +128,7 @@ class Response extends AbstractResponse
      */
     public function getTransactionStatus()
     {
-        if (isset( $this->data['data']['status'] )) {
+        if (isset($this->data['data']['status'])) {
             return $this->data['data']['status'];
         }
 
@@ -143,7 +143,7 @@ class Response extends AbstractResponse
      */
     public function getIframeUrl()
     {
-        if (isset( $this->data['data']['iframe_url'] )) {
+        if (isset($this->data['data']['iframe_url'])) {
             return $this->data['data']['iframe_url'];
         }
 
