@@ -49,7 +49,9 @@ use Omnipay\Omnipay;
 
 $gateway = Omnipay::create('Secupay_LS'); // or 'Secupay_KK' for credit card
 $gateway->setApiKey('yourApiKey');
-$gateway->setTestMode(false); // Testmode is on by default, so you want to switch it off for production.
+
+// Testmode is on by default, so you want to switch it off for production.
+$gateway->setTestMode(false);
 ```
 You can also specify if you want to use the dist system. This is some kind of test environment that won't mess with your actual Secupay account. The transactions won't appear in your Secupay backend. It's recommended for "initial development" to make sure to not screw anything up. **This has nothing to do with the test-mode** and if you don't quite understand the purpose, just leave it as it is, otherwise you can switch it on an off as you like.
 
@@ -95,10 +97,12 @@ if ($response->isSuccessful()) {
     // this is the hash for subsequent API interactions
     $transactionReference = $response->getTransactionReference(); 
     
-    // this is the id that references the actual payment and that you'll see in the Secupay backend
+    // this is the id that references the actual payment 
+    // and that you'll see in the Secupay backend
     $transactionId = $response->getTransactionId();
     
-    // this is the url you should redirect the customer to or display within an iframe
+    // this is the url you should redirect the customer 
+    // to or display within an iframe
     $iframeUrl = $response->getIframeUrl();
 } else {
     echo 'Something went wrong: ' . $response->getMessage();
