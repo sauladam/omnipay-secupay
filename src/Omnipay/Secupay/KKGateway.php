@@ -27,7 +27,6 @@ class KKGateway extends AbstractSecupayGateway
 
         $specificParameters = [
             'paymentType' => 'creditcard',
-            'testMode'    => true,
         ];
 
         return array_merge($commonParameters, $specificParameters);

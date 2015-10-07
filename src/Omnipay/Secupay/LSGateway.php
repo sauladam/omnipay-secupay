@@ -27,7 +27,6 @@ class LSGateway extends AbstractSecupayGateway
 
         $specificParameters = [
             'paymentType' => 'debit',
-            'testMode' => true,
         ];
 
         return array_merge($commonParameters, $specificParameters);
