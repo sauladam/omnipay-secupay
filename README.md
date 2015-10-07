@@ -70,17 +70,17 @@ $response = $gateway->authorize([
     'urlFailure'      => 'https://example.com/failure',
     'urlPush'         => 'https://example.com/push', // optional
     'customerDetails' => [
-            'email'   => 'user@example.com', // optional
-            'ip'      '123.456.789.123', // optional
-            'address' => [
-                'firstName'   => 'Billing Firstname',
-                'lastName'    => 'Billing Lastname',
-                'street'      => 'Billing Street',
-                'houseNumber' => '4a',
-                'zip'         => '12345',
-                'city'        => 'Billing City',
-                'country'     => 'DE',
-            ],
+        'email'   => 'user@example.com', // optional
+        'ip'      '123.456.789.123', // optional
+        'address' => [
+            'firstName'   => 'Billing Firstname',
+            'lastName'    => 'Billing Lastname',
+            'street'      => 'Billing Street',
+            'houseNumber' => '4a',
+            'zip'         => '12345',
+            'city'        => 'Billing City',
+            'country'     => 'DE',
+        ],
     ],
     'deliveryAddress' => [
         'firstName'   => 'Delivery Firstname',
