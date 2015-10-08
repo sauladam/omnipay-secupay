@@ -64,14 +64,16 @@ Since Secupay will have to do some risk checking, you should provide it a reason
 
 ```php
 $response = $gateway->authorize([
-    'amount'          => 1234, // the payment amount in the smallest currency unit
+     // the payment amount must be in the smallest currency
+     // unit, but as float (or string)
+    'amount'          => (float)1234,
     'currency'        => 'EUR', // the currency ISO code
     'urlSuccess'      => 'https://example.com/success',
     'urlFailure'      => 'https://example.com/failure',
     'urlPush'         => 'https://example.com/push', // optional
     'customerDetails' => [
         'email'   => 'user@example.com', // optional
-        'ip'      '123.456.789.123', // optional
+        'ip'      => '123.456.789.123', // optional
         'address' => [
             'firstName'   => 'Billing Firstname',
             'lastName'    => 'Billing Lastname',
