@@ -61,9 +61,9 @@ class InitRequestTest extends TestCase
         $this->assertNull($this->request->getCustomerDetails());
 
         $customerDetails = [
-            'address'   => [
-                'firstName' => 'Homer',
-                'lastName'  => 'Simpson',
+            'address' => [
+                'firstName'   => 'Homer',
+                'lastName'    => 'Simpson',
                 'company'     => 'Fake Inc.', //optional
                 'street'      => 'Fakestreet',
                 'houseNumber' => '123',
@@ -71,11 +71,11 @@ class InitRequestTest extends TestCase
                 'city'        => 'Fake City',
                 'country'     => 'DE',
             ],
-            'title'     => 'Mr.', //optional
-            'email'     => 'homer.simpson@springfield.com',
-            'phone'     => '123-123456', //optional
-            'dob'       => '13.12.2011', //optional
-            'ip'        => '123.456.789.012', //optional
+            'title'   => 'Mr.', //optional
+            'email'   => 'homer.simpson@springfield.com',
+            'phone'   => '123-123456', //optional
+            'dob'     => '13.12.2011', //optional
+            'ip'      => '123.456.789.012', //optional
         ];
 
         $this->request->setCustomerDetails($customerDetails);
@@ -190,6 +190,40 @@ class InitRequestTest extends TestCase
         $this->assertSame($deliveryAddress['country'], $data['delivery_address']['country']);
     }
 
+
+    /** @test */
+    public function it_sets_the_experience_if_it_is_provided()
+    {
+        $this->assertNull($this->request->getExperience());
+
+        $this->request->setExperience([
+            'positive' => 1,
+            'negative' => 0,
+        ]);
+
+        $data = $this->request->getData()['data'];
+
+        $this->assertSame(1, $data['experience']['positive']);
+        $this->assertSame(0, $data['experience']['negative']);
+    }
+
+
+    /**
+     * @test
+     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     */
+    public function it_throws_an_exception_if_the_given_experience_array_is_missing_the_necessary_keys()
+    {
+        $this->request->setExperience([
+            'unknown-key' => 'foo',
+        ]);
+
+        $this->request->setExperience([
+            'positive' => 1,
+        ]);
+    }
+
+
     /**
      * @test
      * @expectedException \Omnipay\Common\Exception\InvalidRequestException
@@ -198,6 +232,7 @@ class InitRequestTest extends TestCase
     {
         $this->request->setAmount(12.3);
     }
+
 
     /** @test */
     public function it_returns_the_expected_response_type()

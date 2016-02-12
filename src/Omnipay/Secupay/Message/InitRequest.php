@@ -42,6 +42,7 @@ class InitRequest extends AbstractRequest
         $data['data'] = $this->addDeliveryAddress($data['data']);
         $data['data'] = $this->addShopName($data['data']);
         $data['data'] = $this->addCustomFields($data['data']);
+        $data['data'] = $this->addExperience($data['data']);
 
         return $data;
     }
@@ -297,6 +298,38 @@ class InitRequest extends AbstractRequest
 
 
     /**
+     * Get the experience.
+     *
+     * @return array
+     */
+    public function getExperience()
+    {
+        return $this->getParameter('experience');
+    }
+
+
+    /**
+     * Set the experience.
+     *
+     * @param array $experience
+     *
+     * @return $this
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
+    public function setExperience(array $experience)
+    {
+        if (! array_key_exists('positive', $experience) || ! array_key_exists('negative', $experience)) {
+            $errorMessage = "The experience array must have a 'positive' and a 'negative' key.";
+            throw new \Omnipay\Common\Exception\InvalidRequestException($errorMessage);
+        }
+
+        $this->setParameter('experience', $experience);
+
+        return $this;
+    }
+
+
+    /**
      * Get the endpoint for this request.
      *
      * @return string
@@ -418,8 +451,28 @@ class InitRequest extends AbstractRequest
         $fields = (array) $this->getCustomFields();
 
         foreach ($fields as $index => $value) {
-            $key                      = 'userfield_' . ( $index + 1 );
+            $key = 'userfield_' . ( $index + 1 );
+            
             $data['userfields'][$key] = $value;
+        }
+
+        return $data;
+    }
+
+
+    /**
+     * Add the experience fields to the request data.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    protected function addExperience(array $data)
+    {
+        $experience = $this->getExperience();
+
+        if ($experience) {
+            $data['experience'] = $experience;
         }
 
         return $data;
@@ -441,7 +494,8 @@ class InitRequest extends AbstractRequest
         $parameter = $this->{$getter}();
 
         if ($parameter) {
-            $key = $overrideName ?: $parameterName;
+            $key = $overrideName
+                ?: $parameterName;
 
             $data[$key] = $parameter;
         }
