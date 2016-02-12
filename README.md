@@ -35,6 +35,7 @@ The following gateways are provided by this package:
 
 * Secupay_LS (Direct Debit)
 * Secupay_KK (Credit Card)
+* Secupay_Invoice (Invoice)
 
 For general usage instructions, please see the main [Omnipay](https://github.com/omnipay/omnipay)
 repository.
@@ -47,16 +48,22 @@ require 'vendor/autoload.php';
 
 use Omnipay\Omnipay;
 
-$gateway = Omnipay::create('Secupay_LS'); // or 'Secupay_KK' for credit card
+$gateway = Omnipay::create('Secupay_LS'); // or 'Secupay_KK' for credit card / 'Secupay_Invoice' for invoice
+
 $gateway->setApiKey('yourApiKey');
 
 // Testmode is on by default, so you want to switch it off for production.
-$gateway->setTestMode(false);
+$gateway->setTestMode(false); // default: true
+
+// The default language is 'DE', but you can switch to 'EN' if you need to. These are the only currently 
+// supported languages, any other language will default to 'DE'.
+$this->setLanguage('EN'); // default: DE
+
 ```
 You can also specify if you want to use the dist system. This is some kind of test environment that won't mess with your actual Secupay account. The transactions won't appear in your Secupay backend. It's recommended for "initial development" to make sure to not screw anything up. **This has nothing to do with the test-mode** and if you don't quite understand the purpose, just leave it as it is, otherwise you can switch it on an off as you like.
 
 ```php
-$gateway->setUseDistSystem(true); // false by default
+$gateway->setUseDistSystem(true); // default: false
 ```
 
 ### Initializing a payment
@@ -92,6 +99,11 @@ $response = $gateway->authorize([
         'zip'         => '12345',
         'city'        => 'Delivery City',
         'country'     => 'DE',
+    ],
+    // optional
+    'experience'      => [
+        'positive' => 1,
+        'negative' => 0,
     ],
 ])->send();
 
@@ -129,7 +141,50 @@ if($response->getTransactionStatus() == 'accepted')
 }
 ```
 
-And that's pretty much all there is to it. If you want to void / cancel that transaction, you can do so:
+#### Status for Invoice payments
+If you're dealing with an Invoice payment type, you'll get the payment instructions for the customer along with the status:
+```php
+$instructions = $response->getPaymentInstructions();
+```
+will then give you something like
+```php
+[
+    'recipient_legal'       => 'secupay AG, Goethestraße 6, 01896 Pulsnitz',
+    'payment_link'          => 'https://api.secupay.ag/payment/cljlldnhgtwh1028319',
+    'payment_qr_image_url'  => 'https://api.secupay.ag/qr?d=https%3A%2F%2Fapi.secupay.ag%2Fpayment%2Fcljlldnhgtwh1028319',
+    'transfer_payment_data' => [
+        'purpose'        => 'TA 6297254 DT 20160212',
+        'account_owner'  => 'Secupay AG',
+        'iban'           => 'DE75 3005 0000 7060 5049 53',
+        'bic'            => 'WELADEDDXXX',
+        'account_number' => '7060504953',
+        'bank_code'      => '30050000',
+        'bank_name'      => 'Landesbank Hessen-Thüringen Girozentrale NL. Düsseldorf',
+    ],
+    'invoice_number'        => null,
+    'shipped'               => false,
+    'shipping_date'         => null,
+]
+```
+
+Notice that there is no invoice number and the order is not marked as shipped yet. So you need to tell Secupay as soon as you ship it. To do so, you send a 'capture' request as explained in the next section.
+
+### Capture the transaction (= mark order as shipped)
+The term 'capture' might be a little misleading in this context. It doesn't actually capture the payment as you might think, but only marks the order as shipped. You can provide additional data like the invoice number and the tracking details:
+```php
+$response = $gateway->capture([
+    'hash' => $transactionReference,
+    'invoiceNumber' => 'invoice-12345', // optional
+    
+    // optional
+    'tracking' => [ 
+        'provider' => 'DHL',
+        'number' => '0033002020202020',
+    ]
+])->send();
+```
+Note that capturing an Invoice payment is mandatory, otherwise Secupay can't calculate the due date. **You can capture all payment types** - and you definitely should. Capturing them and providing the tracking details is highly recommended since they can be very helpful in case of a conflict. This concerns especially the LS and Invoice payment types, where the payment risk is significantly higher.
+
 
 ### Void a transaction
 ```php

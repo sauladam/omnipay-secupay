@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Date: Fri, 12 Feb 2016 15:16:15 GMT
+Server: Apache
+Set-Cookie: WBS=Scc6ilUL0nw22ZNETBgPISwNvlQk9002; path=/; HttpOnly
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: must-revalidate
+Pragma: no-cache
+Content-MD5: a44a2d6a490dda01e0964635b64d40db
+Content-Length: 742
+Content-Type: application/json; charset=utf-8;
+
+{"status":"ok","data":{"hash":"cljlldnhgtwh1028319","status":"accepted","created":"2016-02-12 15:03:42","demo":1,"trans_id":"6297254","amount":1234,"opt":{"recipient_legal":"secupay AG, Goethestra\u00dfe 6, 01896 Pulsnitz","payment_link":"https:\/\/api.secupay.ag\/payment\/cljlldnhgtwh1028319","payment_qr_image_url":"https:\/\/api.secupay.ag\/qr?d=https%3A%2F%2Fapi.secupay.ag%2Fpayment%2Fcljlldnhgtwh1028319","transfer_payment_data":{"purpose":"TA 6297254 DT 20160212","accountowner":"Secupay AG","iban":"DE75 3005 0000 7060 5049 53","bic":"WELADEDDXXX","accountnumber":"7060504953","bankcode":"30050000","bankname":"Landesbank Hessen-Th\u00fcringen Girozentrale NL. D\u00fcsseldorf"},"invoice_number":null,"shipped":false}},"errors":null}

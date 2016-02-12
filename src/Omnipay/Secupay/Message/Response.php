@@ -27,6 +27,8 @@ class Response extends AbstractResponse
      */
     public function __construct(RequestInterface $request, $data)
     {
+        parent::__construct($request, $data);
+
         $this->request = $request;
         $this->data    = $data;
     }
@@ -148,6 +150,34 @@ class Response extends AbstractResponse
         }
 
         return null;
+    }
+
+
+    public function getPaymentInstructions()
+    {
+        if (! isset($this->data['data']['opt'])) {
+            return null;
+        }
+
+        return [
+            'recipient_legal'       => $this->data['data']['opt']['recipient_legal'],
+            'payment_link'          => $this->data['data']['opt']['payment_link'],
+            'payment_qr_image_url'  => $this->data['data']['opt']['payment_qr_image_url'],
+            'transfer_payment_data' => [
+                'purpose'        => $this->data['data']['opt']['transfer_payment_data']['purpose'],
+                'account_owner'  => $this->data['data']['opt']['transfer_payment_data']['accountowner'],
+                'iban'           => $this->data['data']['opt']['transfer_payment_data']['iban'],
+                'bic'            => $this->data['data']['opt']['transfer_payment_data']['bic'],
+                'account_number' => $this->data['data']['opt']['transfer_payment_data']['accountnumber'],
+                'bank_code'      => $this->data['data']['opt']['transfer_payment_data']['bankcode'],
+                'bank_name'      => $this->data['data']['opt']['transfer_payment_data']['bankname'],
+            ],
+            'invoice_number'        => $this->data['data']['opt']['invoice_number'],
+            'shipped'               => (bool) $this->data['data']['opt']['shipped'],
+            'shipping_date'         => isset($this->data['data']['opt']['invoice_number'])
+                ? $this->data['data']['opt']['shipping_date']
+                : null
+        ];
     }
 
 

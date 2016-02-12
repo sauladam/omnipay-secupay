@@ -96,9 +96,10 @@ abstract class AbstractResponseTest extends TestCase
     public function hasTransactionDetails(array $details)
     {
         $default = [
-            'reference' => null,
-            'id'        => null,
-            'status'    => null,
+            'reference'            => null,
+            'id'                   => null,
+            'status'               => null,
+            'payment_instructions' => null,
         ];
 
         $details = array_merge($default, $details);
@@ -106,6 +107,7 @@ abstract class AbstractResponseTest extends TestCase
         $this->assertSame($details['reference'], $this->response->getTransactionReference());
         $this->assertSame($details['id'], $this->response->getTransactionId());
         $this->assertSame($details['status'], $this->response->getTransactionStatus());
+        $this->assertSame($details['payment_instructions'], $this->response->getPaymentInstructions());
     }
 
 
