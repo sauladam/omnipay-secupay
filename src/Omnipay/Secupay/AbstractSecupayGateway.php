@@ -2,35 +2,10 @@
 
 namespace Omnipay\Secupay;
 
-use Guzzle\Http\Client as HttpClient;
 use Omnipay\Common\AbstractGateway;
 
 abstract class AbstractSecupayGateway extends AbstractGateway
 {
-
-    /**
-     * Create a new gateway instance.
-     *
-     * We need a custom client because we have to specify
-     * a certain User-Agent and a language in the headers, so
-     * we have to override the parent constructor.
-     *
-     */
-    public function __construct()
-    {
-        $client = new HttpClient('', [
-            'curl.options' => [
-                CURLOPT_CONNECTTIMEOUT => 60,
-                CURLOPT_HTTPHEADER     => [
-                    'User-Agent: XTC-client 1.0.0',
-                    'Accept-Language: de_DE',
-                ],
-            ],
-        ]);
-
-        parent::__construct($client, null);
-    }
-
 
     /**
      * Get the default parameters.
@@ -41,6 +16,7 @@ abstract class AbstractSecupayGateway extends AbstractGateway
     {
         return [
             'apiKey'        => '',
+            'language'      => 'de_DE',
             'testMode'      => true,
             'useDistSystem' => false,
         ];
@@ -120,6 +96,30 @@ abstract class AbstractSecupayGateway extends AbstractGateway
     public function setUseDistSystem($value)
     {
         return $this->setParameter('useDistSystem', $value);
+    }
+
+
+    /**
+     * Get the language ISO code 2.
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->getParameter('language');
+    }
+
+
+    /**
+     * Set the language ISO code 2.
+     *
+     * @param $language
+     *
+     * @return $this
+     */
+    public function setLanguage($language)
+    {
+        return $this->setParameter('language', $language);
     }
 
 

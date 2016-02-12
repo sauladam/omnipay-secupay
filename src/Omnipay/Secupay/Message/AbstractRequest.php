@@ -5,7 +5,7 @@ namespace Omnipay\Secupay\Message;
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 
-    const API_VERSION = '2.3.9';
+    const API_VERSION = '2.3.21';
 
     /**
      * @var string
@@ -91,6 +91,30 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
 
     /**
+     * Get the language ISO code 2.
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->getParameter('language');
+    }
+
+
+    /**
+     * Set the language ISO code 2.
+     *
+     * @param $language
+     *
+     * @return $this
+     */
+    public function setLanguage($language)
+    {
+        return $this->setParameter('language', $language);
+    }
+
+
+    /**
      * Get the transaction reference hash.
      *
      * @return string
@@ -130,6 +154,39 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
 
     /**
+     * Send the request with the given data.
+     *
+     * @param array $data
+     *
+     * @return Response
+     */
+    public function sendData($data)
+    {
+        $request = $this->httpClient->post($this->getEndpoint(), [
+            'Accept-Language' => $this->getLanguageHeader(),
+            'Content-Type'    => 'application/json; charset=utf-8'
+        ], json_encode($data));
+
+        $httpResponse = $request->send();
+
+        return $this->createResponse($httpResponse->json());
+    }
+
+
+    /**
+     * Create the response.
+     *
+     * @param array $data
+     *
+     * @return Response
+     */
+    protected function createResponse($data)
+    {
+        return $this->response = new Response($this, $data);
+    }
+
+
+    /**
      * Get the endpoint URL for the request.
      *
      * @return string
@@ -157,33 +214,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
 
     /**
-     * Send the request with the given data.
+     * Get the language header.
      *
-     * @param array $data
-     *
-     * @return Response
+     * @return string
      */
-    public function sendData($data)
+    protected function getLanguageHeader()
     {
-        $url = $this->getEndpoint();
-
-        $data = json_encode($data);
-
-        $httpResponse = $this->httpClient->post($url, null, $data)->send();
-
-        return $this->createResponse($httpResponse->json());
-    }
-
-
-    /**
-     * Create the response.
-     *
-     * @param array $data
-     *
-     * @return Response
-     */
-    protected function createResponse($data)
-    {
-        return $this->response = new Response($this, $data);
+        return strtoupper($this->getLanguage()) == 'EN'
+            ? 'en_US'
+            : 'de_DE';
     }
 }
