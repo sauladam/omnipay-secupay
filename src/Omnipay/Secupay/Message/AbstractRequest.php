@@ -15,7 +15,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * @var string
      */
-    protected $distEndpoint = 'https://api-dist.secupay-ag.de';
+    protected $distEndpoint = 'https://connect-testing.secupay-ag.de/api/v2';
 
 
     /**
